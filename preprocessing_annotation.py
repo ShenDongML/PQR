@@ -2,29 +2,14 @@ import os
 from glob import glob
 import json
 import pandas as pd
-from itertools import combinations
-from statsmodels.stats.inter_rater import cohens_kappa, fleiss_kappa
+from statsmodels.stats.inter_rater import fleiss_kappa
 from collections import defaultdict
 
 ROOT_FILE = os.getcwd()
 
+
 def get_test_annotation(annotation_data):
     return {**annotation_data["test"]}
-
-
-def average_pairwise_cohen_kapp(df):
-    kappas = []
-    for col1, col2 in combinations(df.columns, 2):
-        # Create a contingency table
-        contingency_table = pd.crosstab(df[col1], df[col2])
-        kappa = cohens_kappa(contingency_table.values)
-        kappas.append(kappa.kappa)
-        print(f"Cohen's Kappa between {col1} and {col2}: {kappa.kappa:.2f}")
-
-    # Average pairwise Cohen's Kappa
-    average_kappa = sum(kappas) / len(kappas)
-    print(f"Average Pairwise Cohen's Kappa: {average_kappa:.2f}")
-    return average_kappa
 
 
 def calculate_fleiss_kappa(df):
@@ -94,7 +79,6 @@ if __name__ == "__main__":
         )
     binary_annotation = annotation_df.filter(regex="binary_label*")
 
-    average_pairwise_cohen_kapp(binary_annotation)
     calculate_fleiss_kappa(binary_annotation)
     save_unified_annotations(unified)
 

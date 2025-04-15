@@ -6,8 +6,8 @@ This repository contains our new Personal Text Knowledge Base (PTKB) statement a
 
 To get the classification labels used in our paper and compute the Fleiss' Kappa:
 ```bash
-$ python -m venv env
-$ source env/bin/activate
-$ pip install -r requirement.txt
+$ conda create --name pqr python==3.10.13
+$ conda activate pqr
+$ pip install -r requirements.txt
 $ python preprocessing_annotation.py
 ```
